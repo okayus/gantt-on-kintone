@@ -1,5 +1,13 @@
 (function (PLUGIN_ID) {
   'use strict';
+  // mermaid.jsをロードする
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js';
+  document.head.appendChild(script);
+
+  script.onload = () => {
+    mermaid.initialize({ startOnLoad: false });
+  };
 
   kintone.events.on('app.record.index.show', async (event) => {
     const viewId = 7454774;
@@ -8,8 +16,15 @@
     }
 
     const ganttDiagram = generateGanttDiagram(event);
-    const content = document.getElementById('ganttchart-plugin');
-    content.innerHTML = ganttDiagram;
+    const type = mermaid.detectType(ganttDiagram);
+    console.log(type);
+    const content = document.querySelector('#ganttchart-plugin');
+    const diagram = document.createElement('div');
+    diagram.id = 'diagram';
+    diagram.className = 'mermaid';
+    const { svg } = await mermaid.render('diagram', ganttDiagram);
+    diagram.innerHTML = svg;
+    content.appendChild(diagram);
   });
 
   const SECTION_FIELD_CODE = '開発対象のアプリ';
