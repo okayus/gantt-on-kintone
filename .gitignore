@@ -1,4 +1,5 @@
 node_modules
 private.ppk
 plugin/js
+dist
 .env
