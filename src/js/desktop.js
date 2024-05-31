@@ -9,16 +9,17 @@
     mermaid.initialize({ startOnLoad: false });
   };
 
+  const config = kintone.plugin.app.getConfig(PLUGIN_ID);
   kintone.events.on('app.record.index.show', async (event) => {
-    const viewId = 7454774;
-    if (event.viewId !== viewId) {
+    const viewId = config.viewId;
+    if (String(event.viewId) !== viewId) {
       return;
     }
 
     const ganttDiagram = generateGanttDiagram(event);
     const type = mermaid.detectType(ganttDiagram);
     console.log(type);
-    const content = document.querySelector('#ganttchart-plugin');
+    const content = document.querySelector('#gantt-diagram');
     const diagram = document.createElement('div');
     diagram.id = 'diagram';
     diagram.className = 'mermaid';
