@@ -7,13 +7,13 @@
   }
 
   const config = kintone.plugin.app.getConfig(PLUGIN_ID);
-  if (config.message) {
-    messageEl.value = config.message;
+  if (config) {
+    messageEl.value = config.viewId;
   }
 
   formEl.addEventListener('submit', (e) => {
     e.preventDefault();
-    kintone.plugin.app.setConfig({ message: messageEl.value }, () => {
+    kintone.plugin.app.setConfig({viewId: messageEl.value}, () => {
       alert('The plug-in settings have been saved. Please update the app!');
       window.location.href = '../../flow?app=' + kintone.app.getId();
     });
